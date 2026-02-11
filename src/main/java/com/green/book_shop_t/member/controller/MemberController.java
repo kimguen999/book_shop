@@ -28,6 +28,19 @@ public class MemberController {
     }
   }
 
+  // email 사용 가능한지 체크 api  (사용가능하면 return true)
+  // (get) localhost:8080/members/checkId/개인email
+  @GetMapping("/checkId/{memEmail}")
+  public ResponseEntity<?> checkId(@PathVariable("memEmail") String memEmail){
+    try {
+      boolean result = memberService.isUsableEmail(memEmail);
+      return ResponseEntity.status(HttpStatus.OK).body(result);
+    }catch (Exception e){
+      log.error("email 중복 체크 중 에러 발생",e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+  }
+
 }
 
 

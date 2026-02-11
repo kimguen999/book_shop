@@ -5,6 +5,7 @@ import Join from './pages/member/Join'
 import './reset.css'
 import BookList from './pages/book/BookList'
 import Login from './pages/member/Login'
+import BookForm from './pages/book/BookForm'
 
 function App() {
 
@@ -46,8 +47,8 @@ function App() {
           element={<ManagerLayout/>}
         >
           <Route
-            path='join'
-            element={<Join/>}
+            path='book-form'  // url은 합성어 '-' 하이픈 넣는다.
+            element={<BookForm/>}
           />
         </Route>
 

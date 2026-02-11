@@ -35,6 +35,15 @@
         )
     </insert>
 
+    <!--emai 중복 체크 쿼리-->
+    <select id="isUsableEmail" resultType="String">
+        SELECT
+            MEM_EMAIL
+        FROM
+            SHOP_MEMBER
+        WHERE
+            MEM_EMAIL=#{memEmail}
+    </select>
 
 </mapper>
 
