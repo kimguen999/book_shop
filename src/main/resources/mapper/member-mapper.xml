@@ -45,6 +45,19 @@
             MEM_EMAIL=#{memEmail}
     </select>
 
+    <!--로그인시 email, pw 확인 쿼리-->
+    <select id="selectLogin" resultMap="member">
+        SELECT
+            MEM_EMAIL
+            , MEM_NAME
+            , MEM_ROLE
+        FROM
+            SHOP_MEMBER
+        WHERE
+            MEM_EMAIL=#{memEmail}
+            AND MEM_PW=#{memPw}
+    </select>
+
 </mapper>
 
 

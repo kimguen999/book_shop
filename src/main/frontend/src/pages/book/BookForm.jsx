@@ -4,6 +4,8 @@ import Button from '../../components/common/Button'
 import axios from 'axios';
 import { regButton1 } from '../../api/bookApi';
 import { getCateList } from '../../api/bookCateApi';
+import Select from '../../components/common/Select';
+import Textarea from '../../components/common/Textarea';
 
 const BookForm = () => {
 
@@ -152,15 +154,15 @@ const BookForm = () => {
   return (
     <>
       <div>
-
         <div>
           <p>Book Category</p>
-          <select 
+          
+          <Select 
             name='cateNum'
             value={regBook.cateNum}
             onChange={(e)=>{handleRegBook(e)}}
           >
-            <option value='0'>카테고리</option>
+            <option value='0'>카테고리 선택</option>
             {
               cateList.map((e, i)=>{
                 return(
@@ -172,7 +174,7 @@ const BookForm = () => {
               })
             }
             
-          </select>
+          </Select>
           {errors.cateNum && <p className='error'>{errors.cateNum}</p> }
         </div>
 
@@ -226,13 +228,13 @@ const BookForm = () => {
 
         <div>
           <p>Introduce</p>
-          <textarea 
+          <Textarea 
             cols={30}
             rows={5}
             name='bookIntro'
             value={regBook.bookIntro}
             onChange={(e)=>{handleRegBook(e)}}
-          ></textarea>
+          ></Textarea>
         </div>
 
         <div>

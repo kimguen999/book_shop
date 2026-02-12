@@ -41,6 +41,18 @@ public class MemberController {
     }
   }
 
+  // email과 pw가 일치하는지 확인 api
+  // (get) localhost:8080/members/login
+  @GetMapping("login")
+  public ResponseEntity<?> selectLogin(MemberDTO memberDTO){
+    try {
+      MemberDTO result = memberService.selectLogin(memberDTO);
+      return ResponseEntity.status(HttpStatus.OK).body(result);
+    } catch (Exception e){
+      log.error("email, pw 일치 확인 중 에러 발생",e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+  }
 }
 
 

@@ -6,18 +6,24 @@ import './reset.css'
 import BookList from './pages/book/BookList'
 import Login from './pages/member/Login'
 import BookForm from './pages/book/BookForm'
+import WebHacking from './hackingTest/WebHacking'
 
 function App() {
 
   return (
     <>
       <Routes>
+        
         {/* localhost:5173 */}
         {/* 일반 회원이 접근하는 페이지들 */}
         <Route 
           path='/'
           element={<BasicLayout/>}
         >
+          <Route
+            path='hacking'
+            element={<WebHacking/>}
+          />
           {/* Route를 아래와 같이 중복으로 사용하면 두 컴포넌트를 함께 띄울수 있다 */}
           {/* 이때 컴포넌트에 접근하는 url은 바깥 Route와 안쪽 Route의 path 나열로 지정 */}
           {/* 단, 안쪽 Route의 path 속성 값은 '/'를 붙이지 않는다 */}
@@ -46,6 +52,7 @@ function App() {
           path='/manage' 
           element={<ManagerLayout/>}
         >
+          {/* 상품 등록 페이지 localhost:8080/manage/book-form */}
           <Route
             path='book-form'  // url은 합성어 '-' 하이픈 넣는다.
             element={<BookForm/>}

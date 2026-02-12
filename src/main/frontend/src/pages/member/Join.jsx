@@ -178,8 +178,8 @@ const Join = () => {
 
   // email 중복체크 함수
   const checkEmail = async()=>{
-    const response = await checkId(joinData.memEmail);
-    if(response.data===true){
+    const response1 = await checkId(joinData.memEmail);
+    if(response1.data===true){
       alert('사용 가능한 email입니다.')
       // 회원가입 버튼 활성화
       setIsDisable(false);

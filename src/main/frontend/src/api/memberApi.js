@@ -25,10 +25,11 @@ export const insertMember = async (joinData)=>{
  */
 export const checkId = async(memEmail)=>{
   try{
-    const response = await axios.get(`http://localhost:8080/members/checkId/${memEmail}`);
-    return response;
+    const response1 = await axios.get(`http://localhost:8080/members/checkId/${memEmail}`);
+    return response1;
   }catch(e){
-    console.log('email 중복 확인 axios 오류',e)
+    console.log('email 중복 확인 axios 오류',e);
+    return null;
   }
 }
 
