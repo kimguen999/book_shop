@@ -1,6 +1,6 @@
 // 회원과 관련된 axios 기능을 정의한 파일
 
-
+import axios from 'axios';
 
 // 회원가입 요청 api
 /**

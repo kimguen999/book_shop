@@ -5,7 +5,7 @@ import { click } from '../../api/loginApi'
 import { useNavigate } from 'react-router-dom'
 
 
-const Login = () => {
+const Login = ({setLoginInfo}) => {
 
   const nav = useNavigate();
 
@@ -45,8 +45,19 @@ const Login = () => {
       // 로그인 정보를 sessionStorage에 저장하기 위해서 json으로 변경(안하면 [object Object]뜸)
       sessionStorage.setItem('loginInfo', JSON.stringify(loginInfo))
 
+      // App 컴포넌트에서 만든 loginInfo state 변수에 로그인 정보 저장
+      // state 변수를 선언한 컴포넌트가 리렌더링 되기 때문에 App 컴포넌트를 다시 그림
+      // App컴포넌트15줄
+      setLoginInfo(loginInfo);
+
+
       // 로그인 성공시 도서 목록 페이지로 이동
-      nav('/')
+      // 매니저는 도서등록페이지로, 일반회원은 도서목록페이지로
+      if(response.data.memRole=='MANAGER'){
+        nav('/manage/book-form')
+      } else{
+        nav('/')
+      }
 
     } else {
       alert('로그인 실패함 email, pw 다시적으삼')
@@ -57,7 +68,7 @@ const Login = () => {
       })
     }
 
-    // json : 객체를 문자화
+    // json : 객체를 문자화(객체처럼 생긴 문자)
     //  JSON.stringify(객체); -> 객체를 json(문자화)으로 변경
     //  JSON.parse(); -> json(문자화)을 객체로 변경
 

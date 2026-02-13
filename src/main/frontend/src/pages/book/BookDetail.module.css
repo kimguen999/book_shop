@@ -1,0 +1,39 @@
+
+
+.container{
+  margin: 30px auto;
+  border: 1px solid #000;
+  text-align: center;
+}
+
+.first{
+  display: flex;
+  justify-content: center;
+}
+
+.imgdiv img{
+  width: 200px;
+}
+
+.bookInfo{
+  border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 15px;
+  text-align: left;
+
+}
+
+.bookInfo p{
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.bookIntro{
+  margin-top: 20px;
+}
+.imgDetail{
+  width: 450px;
+  margin-top: 20px;
+}

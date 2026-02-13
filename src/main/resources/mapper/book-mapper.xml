@@ -35,6 +35,31 @@
         )
     </insert>
 
+    <!--도서 목록 조회-->
+    <select id="bookList" resultMap="book">
+        SELECT
+            BOOK_NUM
+            , BOOK_TITLE
+            , BOOK_PRICE
+        FROM
+            SHOP_BOOK
+        ORDER BY BOOK_NUM DESC
+    </select>
+
+    <!--도서 상세 조회-->
+    <select id="bookDetail" resultMap="book">
+        SELECT
+            BOOK_NUM
+            , BOOK_TITLE
+            , AUTHOR
+            , BOOK_PRICE
+            , BOOK_STOCK
+            , BOOK_INTRO
+        FROM
+            SHOP_BOOK
+        WHERE BOOK_NUM=#{bookNum}
+    </select>
+
 
 </mapper>
 

@@ -7,8 +7,13 @@ import BookList from './pages/book/BookList'
 import Login from './pages/member/Login'
 import BookForm from './pages/book/BookForm'
 import WebHacking from './hackingTest/WebHacking'
+import { useState } from 'react'
+import BookDetail from './pages/book/BookDetail'
 
 function App() {
+
+  // 로그인 정보를 저장하는 state 변수  Login컴포넌트51줄
+  const [loginInfo, setLoginInfo] = useState({});
 
   return (
     <>
@@ -18,7 +23,7 @@ function App() {
         {/* 일반 회원이 접근하는 페이지들 */}
         <Route 
           path='/'
-          element={<BasicLayout/>}
+          element={<BasicLayout setLoginInfo={setLoginInfo}/>}
         >
           <Route
             path='hacking'
@@ -42,7 +47,13 @@ function App() {
           {/* 로그인 페이지 localhost:5173/login */}
           <Route
             path='login'
-            element={<Login/>}
+            element={<Login setLoginInfo={setLoginInfo}/>}
+          />
+
+          {/* 상품 상세 */}
+          <Route
+            path='bookDetail'
+            element={<BookDetail/>}
           />
         </Route>
 
@@ -50,13 +61,14 @@ function App() {
         {/* 매니저 권한의 회원이 접근하는 페이지들 */}
         <Route 
           path='/manage' 
-          element={<ManagerLayout/>}
+          element={<ManagerLayout setLoginInfo={setLoginInfo}/>}
         >
           {/* 상품 등록 페이지 localhost:8080/manage/book-form */}
           <Route
             path='book-form'  // url은 합성어 '-' 하이픈 넣는다.
             element={<BookForm/>}
           />
+          
         </Route>
 
 

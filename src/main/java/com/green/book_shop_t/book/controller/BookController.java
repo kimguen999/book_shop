@@ -8,10 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequestMapping("/books")
@@ -33,8 +32,31 @@ public class BookController {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
   }
+  // 도서 목록 조회 api
+  // (get) localhost:8080/books
+  @GetMapping("")
+  public ResponseEntity<?> bookList(){
+    try {
+      List<BookDTO> bookDTOList = bookService.bookList();
+      return ResponseEntity.status(HttpStatus.OK).body(bookDTOList);
+    }catch (Exception e){
+      log.error("도서 목록 조회 중 오류 발생",e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+  }
 
-
+  // 도서 1권 상세 조회 api
+  // (@get) localhost:8080/books/3
+  @GetMapping("{bookNum}")
+  public ResponseEntity<?> bookDetail(@PathVariable("bookNum") int bookNum){
+    try {
+      BookDTO bookDetail = bookService.bookDetail(bookNum);
+      return ResponseEntity.status(HttpStatus.OK).body(bookDetail);
+    } catch (Exception e){
+      log.error("도서 상세 조회 중 오류 발생",e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+  }
 
 
 
