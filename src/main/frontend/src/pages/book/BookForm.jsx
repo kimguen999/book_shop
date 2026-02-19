@@ -20,6 +20,15 @@ const BookForm = () => {
     , cateNum : ''
   });
 
+  // 선택할 이미지 파일을 저장할 state 변수
+    const [mainImg, setMainImg] = useState(null); // 대표 이미지 저장할 변수
+    const [subImgs, setSubImgs] = useState(null); // 상세 이미지 저장할 변수
+
+
+
+
+
+
   // 유효성 검사 실행 함수
   const validateField = ()=>{
 
@@ -33,6 +42,11 @@ const BookForm = () => {
     , publishDate : ''
     , cateNum : ''
     }
+
+
+    
+
+
     
     // 제목 유효성 검사
     // 1. 제목을 입력하지 않았을때
@@ -135,7 +149,30 @@ const BookForm = () => {
     if(!isValid){
       return;
     }
-    const response = await regButton1(regBook);
+
+    // 입력한 도서 정보 및 첨부파일 정보를 모두 저장할 수 있는 FormData 객체 생성 및 데이터 적재
+    // 입력한 데이터 및 파일을 모두 spring으로 보내기 위한 문법
+
+    // 도서 정보 저장
+    const regForm = new FormData();  // 모든 정보를 담을 통
+    // regForm.append('키name', '밸류kim');
+    regForm.append('bookTitle', regBook.bookTitle);
+    regForm.append('bookPrice', regBook.bookPrice);
+    regForm.append('author', regBook.author);
+    regForm.append('bookIntro', regBook.bookIntro);
+    regForm.append('publishDate', regBook.publishDate);
+    regForm.append('cateNum', regBook.cateNum);
+
+    // 파일 정보 저장
+    regForm.append('mainImg', mainImg);
+
+    // 상세 파일들 정보 저장 (배열이기 때문에 객체 하나하나 떼서 반복으로 저장해야함)
+    // 배열 데이터를 전달할 수 없기 때문에, 파일 하나하니씩 반복해서 적재
+    for(const e of subImgs){
+      regForm.append("subImgs",e);
+    }
+
+    const response = await regButton1(regForm);
     if(response.status===201){
       setRegBook(response.data)
       console.log(response.data)
@@ -145,6 +182,7 @@ const BookForm = () => {
     }
   }
 
+  console.log('subImgs - ',subImgs);
 
 
 
@@ -246,6 +284,47 @@ const BookForm = () => {
             onChange={(e)=>{handleRegBook(e)}}
           />
           {errors.publishDate && <p className='error'>{errors.publishDate}</p> }
+        </div>
+
+        <div>
+          {/* 이미지 파일 선택 태그 */}
+          {/* 이미지명을 데이터베이스에 저장 (파일 자체가 아니라 파일명을 저장) */}
+          {/* 서버(Spring)에서 선택한 이미지 파일도 저장 -> 첨부, 파일 업로드 */}
+          <input // 대표 이미지
+            type="file" 
+            onChange={e=>{
+              // 업로드할 파일 선택할 때 onChange 이벤트 실행
+              console.log(e.target.files)
+              console.log(e.target.files[0].name)  // 키값이 숫자이므로 [''], 숫자가 아닐땐.
+              console.log(e.target.files.length)
+              console.log(e.target.files['length'])
+              // 대표 이미지를 mainImg에 저장
+              setMainImg(e.target.files[0]);
+            }}
+          />
+        </div>
+
+        <div>
+          {/* multiple 속성 사용시 다중 선택 가능 */}
+          <input // 상세 이미지
+            type="file" 
+            multiple={true}
+            onChange={e=>{
+              console.log(e.target.files)
+              // 선택할 모든 파일명 console에 출력 & 저장
+              for(let i = 0; i<e.target.files.length; i++){
+                console.log(e.target.files[i].name)
+              }
+              // 선택한 파일 전체를 저장할 배열 생성 (키값이 배열과 비슷해서 배열로 하면 편함)
+              const fileArr = [];
+              // 선택한 파일 수만큼 배열에 파일을 저장
+              for(let i = 0; i<e.target.files.length; i++){
+                fileArr.push(e.target.files[i]);
+              }
+              // 상세 이미지 
+              setSubImgs(fileArr);
+            }}
+          />
         </div>
 
         <div>
