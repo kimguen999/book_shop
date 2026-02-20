@@ -201,7 +201,7 @@ const Join = () => {
       <div >
         <div className={styles.container}>
           <div>
-            <p>Email</p>
+            <p>Email (이메일)</p>
             <div className={styles.id_div}>
               <Input
                 name='memEmail'
@@ -216,7 +216,7 @@ const Join = () => {
             {errors.memEmail && <p className='error'>{errors.memEmail}</p>}
           </div>
           <div>
-            <p>Password</p>
+            <p>Password (비밀번호)</p>
             <Input
               type='password'
               name='memPw'
@@ -226,7 +226,7 @@ const Join = () => {
             {errors.memPw && <p className='error'>{errors.memPw}</p>}
           </div>
           <div>
-            <p>Confirm Password</p>
+            <p>Confirm Password (비밀번호 재입력)</p>
             <Input
               type='password'
               name='confirmPw'
@@ -236,7 +236,7 @@ const Join = () => {
             {errors.confirmPw && <p className='error'>{errors.confirmPw}</p>}
           </div>
           <div>
-            <p>Name</p>
+            <p>Name (이름)</p>
             <Input
               name='memName'
               value={joinData.memName}
@@ -245,7 +245,7 @@ const Join = () => {
             {errors.memName && <p className='error'>{errors.memName}</p>}
           </div>
           <div>
-            <p>Tel</p>
+            <p>Tel (연락처)</p>
             <div 
               className = {styles.tel_div}
             >
@@ -268,7 +268,7 @@ const Join = () => {
             {errors.memTel && <p className='error'>{errors.memTel}</p>}
           </div>
           <div>
-            <p>Address</p>
+            <p>Address (주소)</p>
             <div className={styles.addr_div}>
               <Input
                 name='memAddr'

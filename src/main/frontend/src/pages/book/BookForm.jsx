@@ -6,6 +6,7 @@ import { regButton1 } from '../../api/bookApi';
 import { getCateList } from '../../api/bookCateApi';
 import Select from '../../components/common/Select';
 import Textarea from '../../components/common/Textarea';
+import styles from './BookForm.module.css'
 
 const BookForm = () => {
 
@@ -153,7 +154,7 @@ const BookForm = () => {
     // 입력한 도서 정보 및 첨부파일 정보를 모두 저장할 수 있는 FormData 객체 생성 및 데이터 적재
     // 입력한 데이터 및 파일을 모두 spring으로 보내기 위한 문법
 
-    // 도서 정보 저장
+    // 도서 정보 저장 (타이틀, 저자, ... 이미지, 상세이미지)
     const regForm = new FormData();  // 모든 정보를 담을 통
     // regForm.append('키name', '밸류kim');
     regForm.append('bookTitle', regBook.bookTitle);
@@ -177,6 +178,15 @@ const BookForm = () => {
       setRegBook(response.data)
       console.log(response.data)
       alert('등록성공')
+      // input 태그 내용 초기화
+      setRegBook({
+        bookTitle : ''
+        , bookPrice : ''
+        , author : ''
+        , bookIntro : ''
+        , publishDate : ''
+        , cateNum : '0'
+      })
     } else {
       alert('등록실패')
     }
@@ -191,8 +201,9 @@ const BookForm = () => {
 
   return (
     <>
-      <div>
-        <div>
+      <div className={styles.container}>
+        <div className={styles.category}>
+          <h2>관리자용 도서 등록 페이지</h2>
           <p>Book Category</p>
           
           <Select 
@@ -228,11 +239,11 @@ const BookForm = () => {
         </div>
 
         <div>
-          <table>
+          <table className={styles.table}>
             <thead>
               <tr>
-                <td>Price</td>
-                <td>Author</td>
+                <td><p>Price</p></td>
+                <td><p>Authr</p></td>
               </tr>
             </thead>
             <tbody>
@@ -286,12 +297,13 @@ const BookForm = () => {
           {errors.publishDate && <p className='error'>{errors.publishDate}</p> }
         </div>
 
-        <div>
+        <div className={styles.file}>
           {/* 이미지 파일 선택 태그 */}
           {/* 이미지명을 데이터베이스에 저장 (파일 자체가 아니라 파일명을 저장) */}
           {/* 서버(Spring)에서 선택한 이미지 파일도 저장 -> 첨부, 파일 업로드 */}
           <input // 대표 이미지
             type="file" 
+            
             onChange={e=>{
               // 업로드할 파일 선택할 때 onChange 이벤트 실행
               console.log(e.target.files)
@@ -304,7 +316,7 @@ const BookForm = () => {
           />
         </div>
 
-        <div>
+        <div className={styles.file}>
           {/* multiple 속성 사용시 다중 선택 가능 */}
           <input // 상세 이미지
             type="file" 
@@ -327,7 +339,7 @@ const BookForm = () => {
           />
         </div>
 
-        <div>
+        <div className={styles.button}>
           <Button
             title='도서등록'
             onClick={(e)=>{regButton(e)}}

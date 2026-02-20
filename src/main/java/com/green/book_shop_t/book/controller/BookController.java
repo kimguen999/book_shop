@@ -2,6 +2,7 @@ package com.green.book_shop_t.book.controller;
 
 import ch.qos.logback.classic.Logger;
 import com.green.book_shop_t.book.dto.BookDTO;
+import com.green.book_shop_t.book.dto.BookImgDTO;
 import com.green.book_shop_t.book.service.BookService;
 import com.green.book_shop_t.util.UploadUtil;
 import lombok.RequiredArgsConstructor;
@@ -55,11 +56,42 @@ public class BookController {
         System.out.println("전달된 상세 파일들 이름 : "+img.getOriginalFilename());
       }
 
+
+
       // 대표파일 첨부 기능 메서드 호출
-      uploadUtil.fileUpload(mainImgFile);
+      // 리턴으로 원본파일명, 첨부파일명, isMain(Y)를 BookImgDTO 자료형으로 리턴해줌
+      BookImgDTO dto = uploadUtil.fileUpload(mainImgFile);
 
       // 상세파일 첨부 기능 메서드 호출
-      uploadUtil.multipleFileUpload(subImgs);
+      // 리턴으로 원본파일명, 첨부파일명, isMain(N)을 BookImgDTO 자료형 다수를 List로 리턴해줌
+      List<BookImgDTO> imgList = uploadUtil.multipleFileUpload(subImgs);
+
+      // 쿼리 실행시 빈값을 채울 모든 데이터를 통합
+      imgList.add(dto);
+
+      // 다음에 저장될 도서번호 조회
+      int nextBookNum = bookService.getNextBookNum();
+
+      // 조회한 nextBookNum을 bookDTO에 저장
+      bookDTO.setBookNum(nextBookNum);
+
+      // imgList 안의 모든 BookImgDTO 객체에도 도서번호를 저장
+      for (BookImgDTO e : imgList){
+        e.setBookNum(nextBookNum);
+      }
+
+      // SHOP_BOOK 테이블에 데이터 INSERT + BOOK_IMG 테이블에 데이터 INSERT
+       bookService.insertBook(bookDTO, imgList);
+      return ResponseEntity.status(HttpStatus.CREATED).build();
+    } catch(Exception e){
+      log.error("도서 등록 중 오류",e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+  }
+
+      // 쿼리의 빈값을 채울수 있는 원본파일명, 첨부된파일명, 메인여부, 도서번호
+//      mainImgFile.getOriginalFilename();
+
 
       // ---------대표 파일 첨부 기능 시작----------util/UploadUtil
 
@@ -116,14 +148,8 @@ public class BookController {
       //------------상세 파일들 첨부 기능 끝--------------
 
 
-      // SHOP_BOOK 테이블에 데이터 INSERT
-       bookService.insertBook(bookDTO);
-      return ResponseEntity.status(HttpStatus.CREATED).build();
-    } catch(Exception e){
-      log.error("도서 등록 중 오류",e);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
-  }
+
+
 
 
 
