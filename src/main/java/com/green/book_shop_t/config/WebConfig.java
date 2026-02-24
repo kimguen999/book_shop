@@ -2,6 +2,7 @@ package com.green.book_shop_t.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -14,6 +15,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration  // Spring 설정 클래스임을 명시
 public class WebConfig implements WebMvcConfigurer {
+
+  // addResourceHandlers 메서드를 이용해서 스프링 서버에서 외부 파일로 접근하는 설정을 추가
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry
+        // url에 http://localhost:8080/upload/** 패턴으로 입력하면
+        .addResourceHandler("/upload/**")
+        // D:/01-STUDY/dev/upload 이쪽을 참고하겠다
+        .addResourceLocations("file:///D:/01-STUDY/dev/upload/");
+  }
 
   /**
    * CORS 매핑 설정을 추가하는 메서드

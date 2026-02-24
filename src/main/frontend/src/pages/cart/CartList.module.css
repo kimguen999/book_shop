@@ -1,0 +1,80 @@
+.container{
+  margin: 50px 50px;
+  width: 900px;
+}
+
+.table{
+  /* border: 1px solid #000; */
+  width: 100%;
+  
+}
+.table>thead{
+  background-color: #562F00;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+  /* border: 1px solid #000; */
+}
+.table>tbody{
+  /* border: 1px solid #000; */
+  text-align: center;
+  
+}
+.table tr{
+  border-bottom: 1px solid grey;
+}
+
+.table>tbody>tr:nth-child(odd){
+  background-color: #F6E7BC;
+  
+}
+.table>tbody>tr:nth-child(even){
+  background-color: #FFCE99;
+}
+.table td{
+  /* border: 1px solid #000; */
+  vertical-align: middle;
+  padding: 10px;
+
+}
+
+.imgtd{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+}
+.imgtd span{
+  vertical-align: middle;
+}
+.table span{
+  /* border: 1px solid #000; */
+
+}
+
+
+.price{
+  /* border: 1px solid #000; */
+  text-align: end;
+  padding: 30px 0px;
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+
+.img{
+  width: 50px;
+}
+
+.button{
+  text-align: end;
+  /* border: 1px solid #000; */
+
+}
+.button Button{
+  /* border: 1px solid #000; */
+  margin: 20px 0px;
+  margin-left: 10px;
+  padding: 1.3rem 2.5rem;
+  font-size: 1.2rem;
+}

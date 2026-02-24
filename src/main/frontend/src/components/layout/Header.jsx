@@ -16,6 +16,9 @@ const Header = ({setLoginInfo}) => {
   
   const nav = useNavigate();
   
+  const goMyPage = ()=>{
+    nav('/my/cartList')
+  }
 
 
 
@@ -39,16 +42,21 @@ const Header = ({setLoginInfo}) => {
               <li>
                 {loginInfo_obj.memName}님 반갑습니다.
               </li>
-              <li>장바구니</li>
+              <li
+                onClick={e=>{goMyPage()}}
+                style={{cursor : 'pointer'}}
+              >마이페이지</li>
               <li>
-                <Link 
+                <span 
                   style={{cursor : 'pointer'}}
                   onClick={e=>{
                     sessionStorage.removeItem('loginInfo')
-                    setLoginInfo(loginInfo)
+                    setLoginInfo(null)
+                    alert('로그아웃 되었습니다.')
                     nav('/')}
+
                   }
-                >logout</Link>
+                >logout</span>
               </li>
             </>
           }
@@ -66,7 +74,7 @@ const Header = ({setLoginInfo}) => {
         <h3 className={styles.banner_title}>BOOK SHOP</h3>
       </div>
       <div>
-        일반사용자가 보는 메뉴
+        
       </div>
     </div>
   )

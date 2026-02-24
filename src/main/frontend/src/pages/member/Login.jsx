@@ -31,9 +31,9 @@ const Login = ({setLoginInfo}) => {
 
       // 로그인한 유저의 정보를 sessionStorage에 저장 
       // (그냥 변수에 저장하면 새로고침하면 로그인 풀리기 때문)
-      sessionStorage.setItem('memEmail', response.data.memEmail)
-      sessionStorage.setItem('memName', response.data.memName)
-      sessionStorage.setItem('memRole', response.data.memRole)
+      // sessionStorage.setItem('memEmail', response.data.memEmail)
+      // sessionStorage.setItem('memName', response.data.memName)
+      // sessionStorage.setItem('memRole', response.data.memRole)
 
       // state에 저장한 모든 데이터를 한방에 sessionStorage에 저장하는법
       // 로그인한 회원의 이메일, 이름, 권한 정보를 저장하는 변수

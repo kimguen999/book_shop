@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +26,8 @@ public class BookDTO {
   private String bookIntro;
   private LocalDate publishDate;
   private int cateNum;
+  // 1:n관계일때
+  private List<BookImgDTO> bookImgList;
 
 
 }

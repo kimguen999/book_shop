@@ -9,6 +9,8 @@ import BookForm from './pages/book/BookForm'
 import WebHacking from './hackingTest/WebHacking'
 import { useState } from 'react'
 import BookDetail from './pages/book/BookDetail'
+import CartList from './pages/cart/CartList'
+import UserLayout from './components/layout/UserLayout'
 
 function App() {
 
@@ -52,10 +54,26 @@ function App() {
 
           {/* 상품 상세 */}
           <Route
-            path='bookDetail'
+            path="bookDetail/:bookNum"
             element={<BookDetail/>}
           />
+
+          
+
         </Route>
+
+
+        {/* 로그인한 유저가 접근하는 페이지 */}
+        <Route path='/my' element={ <UserLayout setLoginInfo={setLoginInfo}/> }>
+          {/* 장바구니 페이지 */}
+          <Route
+            path='cartList'
+            element={<CartList />}
+          />
+        </Route>
+
+
+
 
 
         {/* 매니저 권한의 회원이 접근하는 페이지들 */}

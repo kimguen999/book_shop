@@ -17,6 +17,7 @@ const BookList = () => {
   const getList = async()=>{
     const response = await getBookList();
     setBookList(response.data)
+    console.log(response.data)
   }
 
 

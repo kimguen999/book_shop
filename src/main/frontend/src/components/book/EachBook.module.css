@@ -1,14 +1,18 @@
 .container{
   text-align: center;
-  
+  /* border: 1px solid #000; */
 }
 
 .imgdiv{
   position: relative;
+  height: 280px;
+  cursor: pointer;
+  /* border: 1px solid #000; */
 }
 
 .imgdiv>img{
   width: 100%;
+  height: 100%;
   
 }
 .p{

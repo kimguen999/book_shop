@@ -173,7 +173,7 @@ public class BookController {
 
   // 도서 1권 상세 조회 api
   // (@get) localhost:8080/books/3
-  @GetMapping("{bookNum}")
+  @GetMapping("/{bookNum}")
   public ResponseEntity<?> bookDetail(@PathVariable("bookNum") int bookNum){
     try {
       BookDTO bookDetail = bookService.bookDetail(bookNum);
