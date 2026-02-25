@@ -66,10 +66,14 @@ const Header = ({setLoginInfo}) => {
           
         </ul>
       </div>
-      <div className={styles.banner_div}>
+      <div 
+        className={styles.banner_div}
+        onClick={()=>{nav('/')}}
+      >
         <img 
           className={styles.banner_img}
           src="/book_banner.PNG" 
+          
         />
         <h3 className={styles.banner_title}>BOOK SHOP</h3>
       </div>

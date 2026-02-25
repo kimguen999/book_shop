@@ -9,6 +9,8 @@
   width: 300px;
   height: 70px;
   object-fit: cover;
+  /* border: 1px solid #000; */
+  cursor: pointer;
 }
 
 .container > ul{

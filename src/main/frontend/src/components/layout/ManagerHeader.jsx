@@ -17,7 +17,11 @@ const ManagerHeader = ({setLoginInfo}) => {
 
   return (
     <div className={styles.container}>
-      <img src="/logo.png" className={styles.logo} />
+      <img 
+        src="/logo.png" 
+        className={styles.logo} 
+        onClick={()=>{nav('/')}}
+      />
       <ul>
         {
           loginInfo==null

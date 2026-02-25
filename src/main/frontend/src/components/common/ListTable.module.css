@@ -1,0 +1,39 @@
+
+.listTable{
+  width: 100%;
+  text-align: center;
+  font-size: 1.1rem;
+
+}
+.listTable td{
+  padding: 0.5rem;
+}
+
+
+.listTable>thead>tr{
+  border-top: 1px solid #562f00;
+  border-bottom: 1px solid #562f00;
+  background-color: rgba(87, 48, 0, 0.8);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+
+}
+
+.listTable>tbody>tr{
+  border-bottom: 1px solid rgba(200,200,200,0.4);
+}
+.listTable>tbody td{
+  vertical-align: middle;
+  
+}
+
+.listTable>tbody>tr:nth-child(even){
+  background-color: rgba(200,200,200,0.2);
+}
+
+
+.listTable>tbody>tr:hover{
+  background-color: rgba(200,200,200,0.4);
+}
+

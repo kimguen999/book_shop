@@ -39,3 +39,13 @@ export const getBookDetail = async (bookNum)=>{
     console.log('도서 상세 조회 axios 오류',e)
   }
 }
+
+// // 장바구니 추가 시 중복 도서 확인 조회 axios
+// export const duplication = async(memEmail,bookNum)=>{
+//   try{
+//     const response = await axios.get(`http://localhost:8080/carts/${memEmail}/${bookNum}`)
+//     return response;
+//   } catch(e){
+//     console.log('도서 중복 조회 axios 오류',e)
+//   }
+// }

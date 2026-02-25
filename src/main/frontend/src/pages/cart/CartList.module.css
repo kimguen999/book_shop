@@ -1,6 +1,6 @@
 .container{
   margin: 50px 50px;
-  width: 900px;
+  width: 1000px;
 }
 
 .table{
@@ -45,14 +45,21 @@
   gap: 10px;
   
 }
+
+
 .imgtd span{
   vertical-align: middle;
 }
 .table span{
   /* border: 1px solid #000; */
-
+  
 }
 
+
+.cntTd>input{
+  width: 100%;
+  
+}
 
 .price{
   /* border: 1px solid #000; */
@@ -60,11 +67,14 @@
   padding: 30px 0px;
   font-size: 1.7rem;
   font-weight: bold;
+  
 }
 
 .img{
   width: 50px;
 }
+
+
 
 .button{
   text-align: end;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './BookDetail.module.css'
 import { useNavigate, useParams } from 'react-router-dom';
-import { getBookDetail } from '../../api/bookApi';
+import {  getBookDetail } from '../../api/bookApi';
 import Input from '../../components/common/Input';
 import { click } from '../../api/loginApi';
 import { regCart } from '../../api/cartApi';
@@ -69,6 +69,20 @@ const BookDetail = ({book}) => {
     const loginInfo = sessionStorage.getItem('loginInfo')
     const loginInfo_obj = JSON.parse(loginInfo);
 
+    // // 중복체크
+    // const duplicationResponse = await duplication(loginInfo_obj.memEmail, bookDetail.bookNum)
+   
+
+    // // 상품이 장바구니 존재할때
+    // if(duplicationResponse.data !== null){
+    //   const result = window.confirm('이미 장바구니에 담긴 상품입니다. 장바구니로 이동하시겠습니까?')
+    //   if(result){
+    //     nav('/my/cartList');
+    //   }
+    //   return;
+    // }
+
+    
     const data = {
       bookNum : bookDetail.bookNum
       , cartCnt : bookCnt

@@ -9,15 +9,15 @@
         <id column="CART_NUM"         property="cartNum"/>
         <result column="CART_CNT"     property="cartCnt"/>
         <result column="CART_DATE"    property="cartDate"/>
-        <result column="BOOK_NUM"    property="bookNum"/>
-
+        <result column="BOOK_NUM"     property="bookNum"/>
+        <result column="MEM_EMAIL"    property="memEmail"/>
 
 <!--    <association property="" resultMap=""></association>
         1 : 1 관계는 associaation-->
         <association property="bookList" resultMap="com.green.book_shop_t.book.mapper.BookMapper.book"/>
         <association property="member" resultMap="com.green.book_shop_t.member.mapper.MemberMapper.member"/>
         <!-- 1 : N관계는 collection,
-        property는 변수명, resultMap은 땡겨올 클래스의 xml namespace.id -->
+        property는 CartDTO에 연결된 DTO의 변수명, resultMap은 땡겨올 클래스의 xml namespace.id -->
     </resultMap>
 
 
@@ -64,31 +64,41 @@
     </select>
 
 
+    <!--장바구니에 상품 중복인지 판단 쿼리, 조회가 되냐 안되냐가 중요-->
+    <select id="isDuplicateBook" resultType="string">
+        SELECT
+            MEM_EMAIL
+            <!--단순히 수량에 null이 필요해서
+            null을 쓸수있는 string인 MEM_EMAIL 사용한거-->
+        FROM
+            SHOP_CART
+
+        WHERE BOOK_NUM = #{bookNum}
+            AND MEM_EMAIL = #{memEmail}
+
+    </select>
+
+    <!--장바구니 업데이트 쿼리, 수량.날짜 변경-->
+    <update id="updateCartBook">
+        UPDATE
+            SHOP_CART
+        SET
+            CART_CNT = CART_CNT + #{cartCnt}
+            , CART_DATE = SYSDATE()
+        WHERE
+            BOOK_NUM = #{bookNum}
+            AND MEM_EMAIL = #{memEmail}
+    </update>
+
+    <!--장바구니 삭제 클릭 시 목록 1줄 삭제 쿼리-->
+    <delete id="deleteCart">
+        DELETE FROM
+            SHOP_CART
+        WHERE
+            CART_NUM = #{cartNum}
+    </delete>
+
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
