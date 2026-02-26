@@ -117,6 +117,8 @@ const CartList = () => {
   }
 
 
+
+
   return (
     <div className={styles.container}>
       <div>
@@ -161,7 +163,11 @@ const CartList = () => {
                       </span>
                     </td>
                     <td>
-                      <input type="checkbox" checked={true}/>
+                      <input 
+                        type="checkbox" 
+                        checked={true}
+                        value={cart.cartNum}
+                      />
                     </td>
                     <td className={styles.imgtd}>
                       <img 

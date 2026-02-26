@@ -11,6 +11,7 @@ import { useState } from 'react'
 import BookDetail from './pages/book/BookDetail'
 import CartList from './pages/cart/CartList'
 import UserLayout from './components/layout/UserLayout'
+import CheckboxTest from './study/CheckboxTest'
 
 function App() {
 
@@ -31,6 +32,12 @@ function App() {
             path='hacking'
             element={<WebHacking/>}
           />
+
+          <Route
+            path='chk'
+            element={<CheckboxTest/>}
+          />
+
           {/* Route를 아래와 같이 중복으로 사용하면 두 컴포넌트를 함께 띄울수 있다 */}
           {/* 이때 컴포넌트에 접근하는 url은 바깥 Route와 안쪽 Route의 path 나열로 지정 */}
           {/* 단, 안쪽 Route의 path 속성 값은 '/'를 붙이지 않는다 */}
