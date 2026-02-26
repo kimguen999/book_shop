@@ -59,7 +59,7 @@
                     ON C.BOOK_NUM = I.BOOK_NUM
         WHERE I.IS_MAIN = 'Y'
             AND C.MEM_EMAIL = #{memEmail}
-        ORDER BY CART_NUM DESC
+        ORDER BY CART_DATE DESC
 
     </select>
 

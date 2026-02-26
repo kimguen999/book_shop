@@ -42,9 +42,14 @@ const CartList = () => {
   // 총 구매가격 (구매가격 다더한거)
   const sumAll = (sum)=>{
     let total = 0;
-    for(let i = 0; i<cartInfo.length; i++){
-      total = total + (cartInfo[i].bookList.bookPrice * cartInfo[i].cartCnt)
+    if(isCartNum.length > 0){
+      for(let i = 0; i<cartInfo.length; i++){
+        if(isCartNum.includes(cartInfo[i].cartNum)){
+          total = total + (cartInfo[i].bookList.bookPrice * cartInfo[i].cartCnt)
+        }
+      }
     }
+    
     return total.toLocaleString();
   }
 
@@ -115,8 +120,40 @@ const CartList = () => {
       cart
     }))
   }
+  // 전체 체크박스 체크 변경 state 변수
+  const [isChecked, setIsChecked] = useState(true);
+
+  // cartNum만 저장할 state 변수
+  const [isCartNum, setIsCartNum] = useState([])
 
 
+  // 체크박스 변경시 실행함수
+  const handleCheckbox = (e, cartNum)=>{
+    if(e.target.checked){
+      // e.target.checked 됐을때 true 반환
+      setIsCartNum([...isCartNum, cartNum])
+    }
+    // 체크 해제시
+    else{
+      // filter()로 원하는 값만 걸러서 배열로 리턴
+      // 잘 모르겠으면 study에 CheckboxTest.jsx 참고
+      setIsCartNum(isCartNum.filter(each=>each!==cartNum));
+      // 체크 하나라도 해제시 thead 체크박스 해제
+      setIsChecked(false)
+    }
+  }
+
+  
+  const headCheckbox = (e)=>{
+    // 전체 체크박스 컨트롤
+    setIsChecked(e.target.checked)
+    // 내용부 체크박스 컨트롤
+    if(e.target.checked){
+      setIsCartNum(cartInfo.map(cart => cart.cartNum));
+    } else{
+      setIsCartNum([]);
+    }
+  }
 
 
   return (
@@ -138,7 +175,11 @@ const CartList = () => {
             <tr>
               <td><span>No</span></td>
               <td>
-                <input type="checkbox" checked={true}/>
+                <input 
+                  type="checkbox" 
+                  checked={isChecked}
+                  onChange={e=>headCheckbox(e)}
+                />
               </td>
               <td><span>도서 정보</span></td>
               <td><span>가격</span></td>
@@ -165,8 +206,9 @@ const CartList = () => {
                     <td>
                       <input 
                         type="checkbox" 
-                        checked={true}
+                        checked={isCartNum.includes(cart.cartNum)}
                         value={cart.cartNum}
+                        onChange={e=>handleCheckbox(e,cart.cartNum)}
                       />
                     </td>
                     <td className={styles.imgtd}>
