@@ -28,6 +28,11 @@ const CartList = () => {
 
     const response = await getCart(loginInfo_obj.memEmail)
     setCartInfo(response.data)
+
+    setIsCartNum(response.data.map(cart=>cart.cartNum));
+    setIsChecked(true);
+
+
     return response;
 
   }
@@ -140,6 +145,13 @@ const CartList = () => {
       setIsCartNum(isCartNum.filter(each=>each!==cartNum));
       // 체크 하나라도 해제시 thead 체크박스 해제
       setIsChecked(false)
+
+      // filter(e=>{return 참or거짓})  거짓인거는 걸러지는 filter
+      // map(e=>{return 계산식})
+      // ex) arr = [1,2,3]
+      //     arr.filter(e=>{return e>1})  -> [2, 3]
+      //     arr.map(e=>{return e+1})   -> ['2','3','4',]
+      
     }
   }
 
@@ -155,6 +167,7 @@ const CartList = () => {
     }
   }
 
+  //---------------------------------------------------------------------
 
   return (
     <div className={styles.container}>
@@ -203,6 +216,9 @@ const CartList = () => {
                         {i+1}
                       </span>
                     </td>
+
+
+
                     <td>
                       <input 
                         type="checkbox" 
@@ -211,6 +227,9 @@ const CartList = () => {
                         onChange={e=>handleCheckbox(e,cart.cartNum)}
                       />
                     </td>
+
+
+
                     <td className={styles.imgtd}>
                       <img 
                         src={`http://localhost:8080/upload/${cart.bookList.bookImgList[0].uploadFileName}`}
@@ -225,9 +244,6 @@ const CartList = () => {
                         {cart.bookList.bookPrice?.toLocaleString()}
                       </span>
                     </td>
-
-
-
                     <td className={styles.cntTd}>
                       <Input 
                         value={cart.cartCnt}
@@ -242,9 +258,6 @@ const CartList = () => {
                         onClick={()=>{minusCnt(cart.cartNum)}}
                       >-</button>
                     </td>
-
-
-
                     <td>
                       <span>
                         {sum(cart)}
