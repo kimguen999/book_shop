@@ -53,4 +53,15 @@ public class CartService {
     cartMapper.deleteCart(cartNum);
   }
 
+  // 장바구니 수량 변경 기능
+  public void updateCartCnt(CartDTO cartDTO){
+    cartMapper.updateCartCnt(cartDTO);
+  }
+
+  // 장바구니 선택삭제 기능
+  public void deleteCarts(List<Integer> cartNumList){
+    cartMapper.deleteCarts(cartNumList);
+  }
+
+
 }

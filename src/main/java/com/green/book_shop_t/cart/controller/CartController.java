@@ -62,6 +62,40 @@ public class CartController {
     }
   }
 
+  // 장바구니 수량 변경 api
+  // (put) localhost:8080/carts/3
+  @PutMapping("/{cartNum}")
+  public ResponseEntity<?> updateCartCnt(
+      @PathVariable("cartNum") int cartNum
+      ,@RequestBody CartDTO cartDTO){
+    try{
+      cartDTO.setCartNum(cartNum);
+      if(cartDTO.getCartCnt()<1){
+        cartDTO.setCartCnt(1);
+      }
+      cartService.updateCartCnt(cartDTO);
+      return ResponseEntity.status(HttpStatus.OK).build();
+    } catch (Exception e){
+      log.error("장바구니 수량 변경 api 오류", e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+  }
+
+  // 장바구니 선택삭제 api
+  // (delete) localhost:8080/del-carts
+  @DeleteMapping("/del-carts")
+  public ResponseEntity<?> deleteCarts(@RequestParam("cartNumList") List<Integer> cartNumList){
+    try {
+      cartService.deleteCarts(cartNumList);
+      return ResponseEntity.status(HttpStatus.OK).build();
+    } catch (Exception e){
+      log.error("장바구니 선택삭제 api 오류",e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+  }
+
+
+
   // 중복상품조회.업데이트를 등록에 한번에 적음
 
 //  // 장바구니 조회해서 중복된 상품 있는지 판단하는 조회 api

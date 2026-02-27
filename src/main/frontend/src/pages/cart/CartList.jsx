@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './CartList.module.css'
 import Button from '../../components/common/Button'
 import Input from '../../components/common/Input'
-import { deleteOne1, getCart } from '../../api/cartApi';
+import { delCarts, deleteOne1, getCart, updateCnt } from '../../api/cartApi';
 import ListTable from '../../components/common/ListTable';
 import dayjs from 'dayjs';
 
@@ -81,59 +81,81 @@ const CartList = () => {
   // 장바구니에서 수량 변경할때마다 DB에 정보가 들어가게 하려면
   // 수정(put) 쿼리 만들어야함!!!!!!
 
-    // 수량 변경 + 한글.음수 금지 함수
-  const handleCnt = (e, cartNum)=>{
-    // 만약 숫자가 아닌 문자열이 입력되면 입력된 문자열을 빈문자열로 변경 (음수 알아서 해결)
-    let cntValue = e.target.value.replace(/[^0-9]/g,'')
-    // 빈문자일 경우는 강제로 1로 변경
+  //   // 수량 변경 + 한글.음수 금지 함수
+  // const handleCnt = (e, cartNum)=>{
+  //   // 만약 숫자가 아닌 문자열이 입력되면 입력된 문자열을 빈문자열로 변경 (음수 알아서 해결)
+  //   let cntValue = e.target.value.replace(/[^0-9]/g,'')
+  //   // 빈문자일 경우는 강제로 1로 변경
 
-    cntValue = cntValue==='' ? '1' : cntValue;
+  //   cntValue = cntValue==='' ? '1' : cntValue;
 
-    setCartInfo(cartInfo.map((cart)=>{
-      return cart.cartNum === cartNum 
-      ?
-      {
-        ...cart
-        , cartCnt : cntValue
-      } 
-      : 
-      cart
-    }))
-  }
-
+  //   setCartInfo(cartInfo.map((cart)=>{
+  //     return cart.cartNum === cartNum 
+  //     ?
+  //     {
+  //       ...cart
+  //       , cartCnt : cntValue
+  //     } 
+  //     : 
+  //     cart
+  //   }))
+  // }
 //------------------------------------
 
+
+
+
+    // 장바구니 수량 변경 함수 + 한글.음수 금지 + 빈문자x 1로 수정
+  const updateCartCnt = async (cartNum, cartCnt) => {
+    
+    // 수량 변경 + 한글.음수 금지 함수
+    // 만약 숫자가 아닌 문자열이 입력되면 입력된 문자열을 빈문자열로 변경 (음수 알아서 해결)
+    let cntValue = String(cartCnt).replace(/[^0-9]/g,'')
+    // 빈문자일 경우는 강제로 1로 변경
+    cntValue = cntValue==='' ? '1' : cntValue;
+    
+    setCartInfo(cartInfo.map(cart=>
+      cart.cartNum === cartNum
+      ?
+      {...cart, 'cartCnt' : cntValue}
+      :
+      cart
+    ))
+
+    await updateCnt(cartNum,cartCnt)
+  }
+
+  
+  
+
   // +버튼
-  const plusCnt = (cartNum)=>{
-    setCartInfo(cartInfo.map(cart=>{
-      return cart.cartNum === cartNum 
-      ? 
-      {
-        ...cart
-        , cartCnt : Number(cart.cartCnt)+1
-      } 
-      : 
-      cart
-    }))
+  const plusCnt = async (cartNum)=>{
+    const newCartInfo = cartInfo.map(cart=>{
+      if(cart.cartNum===cartNum){
+        const newCnt = Number(cart.cartCnt)+1
+        updateCartCnt(cartNum, newCnt)
+        return{...cart, cartCnt : newCnt}
+      }
+      return cart
+    })
+    setCartInfo(newCartInfo)
   }
+
   // -버튼
-  const minusCnt = (cartNum)=>{
-    setCartInfo(cartInfo.map(cart=>{
-      return cart.cartNum === cartNum 
-      ? 
-      {
-        ...cart
-        , cartCnt : 
-          Number(cart.cartCnt)>1
-          ?
-          Number(cart.cartCnt)-1
-          :
-          1
-      } 
-      : 
-      cart
-    }))
+  const minusCnt = async (cartNum)=>{
+    const newCartInfo = cartInfo.map(cart => {
+      if(cart.cartNum === cartNum) {
+        const newCnt = Number(cart.cartCnt) > 1 
+          ? Number(cart.cartCnt) - 1 
+          : 1
+        updateCartCnt(cartNum, newCnt)
+        return { ...cart, cartCnt: newCnt }
+      }
+      return cart
+    })
+    setCartInfo(newCartInfo)
   }
+
   // 전체 체크박스 체크 변경 state 변수
   const [isChecked, setIsChecked] = useState(true);
 
@@ -175,6 +197,40 @@ const CartList = () => {
       setIsCartNum([]);
     }
   }
+
+  
+
+  // 장바구니 선택 삭제 함수
+  const removeCarts = async ()=>{
+    
+    // 삭제할 상품을 선택했는지 확인
+    if(isCartNum.length===0){
+      alert("삭제할 상품이 없습니다. 삭제할 상품을 골라주세요.")
+      return;
+    }
+
+    // 삭제할 상품의 제목들을 가져오기
+    const selectedBooks = cartInfo
+      .filter(cart => isCartNum.includes(cart.cartNum))
+      .map(cart => cart.bookList.bookTitle)
+
+    // 삭제 여부
+    const result = window.confirm(
+      `선택한 ${selectedBooks.length}개 상품을 정말 삭제하시겠습니까?\n\n${selectedBooks.join('\n')}`
+    )
+    
+    if(!result) {
+      return; 
+    }
+
+    await delCarts(isCartNum);  
+    // cartApi에 delCarts에 매개변수로 들어감. 매개변수명이 다르지만 헷갈리지말기
+    
+    alert(`${selectedBooks.length}개 상품이 장바구니에서 삭제되었습니다.`)
+    insertCart();
+  }
+  
+  console.log(isCartNum)
 
   //---------------------------------------------------------------------
 
@@ -249,20 +305,26 @@ const CartList = () => {
                         {cart.bookList.bookPrice?.toLocaleString()}
                       </span>
                     </td>
+
+
+
                     <td className={styles.cntTd}>
                       <Input 
                         value={cart.cartCnt}
-                        onChange={e=>handleCnt(e, cart.cartNum)}
+                        onChange={e=>updateCartCnt(cart.cartNum, e.target.value)}
                       />
                       <button 
                         type='button'
-                        onClick={()=>{minusCnt(cart.cartNum)}}
+                        onClick={()=>minusCnt(cart.cartNum)}
                       >-</button>
                       <button 
                         type='button'
-                        onClick={()=>{plusCnt(cart.cartNum)}}
+                        onClick={()=>plusCnt(cart.cartNum)}
                       >+</button>
                     </td>
+
+
+
                     <td>
                       <span className={styles.sumSpan}>
                         {sum(cart)}
@@ -301,6 +363,7 @@ const CartList = () => {
         <Button
           variant='gray'
           title='선택 삭제'
+          onClick={e=>removeCarts()}
         />
         <Button
           title='선택 구매'

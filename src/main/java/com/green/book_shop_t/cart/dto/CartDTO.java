@@ -29,5 +29,9 @@ public class CartDTO {
 //  private String uploadFileName;
   private BookDTO bookList;
   private MemberDTO member;
+  private List<Integer> cartNumList;
+  // ㄴ> 이걸 안적을거라면 controller에 @RequestParam쓰면됨
+  // 입력값이 여러개일때 @RequestParam 여러개쓰기 귀찮으니까
+  // DTO에 추가하는거다.
 
 }
