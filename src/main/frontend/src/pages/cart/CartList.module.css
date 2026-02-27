@@ -39,6 +39,10 @@
 
 }
 
+.checkbox{
+  
+}
+
 .imgtd{
   display: flex;
   align-items: center;
@@ -55,11 +59,34 @@
   
 }
 
+.titleSpan{
+  font-weight: bold;
+  text-align: left;
+}
+
 
 .cntTd>input{
   width: 100%;
+  text-align: center;
   
 }
+.cntTd button{
+  margin: 5px;
+  padding: 4px 11px;
+  background-color: #0B2D72;
+  border-color: #FDC3A1;
+  color: white;
+  cursor: pointer;
+}
+.cntTd>button:nth-child(3){
+  background-color: #A82323;
+
+}
+
+.sumSpan{
+  font-weight: bold;
+}
+
 
 .price{
   /* border: 1px solid #000; */

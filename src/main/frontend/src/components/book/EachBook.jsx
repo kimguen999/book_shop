@@ -3,6 +3,7 @@ import styles from './EachBook.module.css'
 import BookList from '../../pages/book/BookList'
 import { getBookDetail } from '../../api/bookApi';
 import { useNavigate } from 'react-router-dom';
+import ListTable from '../common/ListTable';
 
 const EachBook = ({book}) => {
 
@@ -52,8 +53,31 @@ const EachBook = ({book}) => {
 
 
         <div className={styles.p}>
-          <p>도서명 : {book.bookTitle}</p>
-          <p>가격 : {book.bookPrice.toLocaleString()}원</p>
+          <table>
+            <colgroup>
+              <col width='28%'/>
+              <col width='*'/>
+            </colgroup>
+            <tbody className={styles.tbody}>
+              <tr>
+                <td >
+                  <p>도서명 : </p>
+                </td>
+                <td>
+                  <p>{book.bookTitle}</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>가격 : </p>
+                </td>
+                <td>
+                  <p>{book.bookPrice.toLocaleString()}원</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
         </div>
       </div>
     </>

@@ -74,6 +74,13 @@ const CartList = () => {
     }
   }
 
+//------------------------------------------
+  ///// 문제 발생
+  // 쿼리 안만들고 BookDetail input 처럼 만들었는데
+  // 이러면 DB에 데이터가 들어가지 않음!!!!!!!!
+  // 장바구니에서 수량 변경할때마다 DB에 정보가 들어가게 하려면
+  // 수정(put) 쿼리 만들어야함!!!!!!
+
     // 수량 변경 + 한글.음수 금지 함수
   const handleCnt = (e, cartNum)=>{
     // 만약 숫자가 아닌 문자열이 입력되면 입력된 문자열을 빈문자열로 변경 (음수 알아서 해결)
@@ -93,6 +100,8 @@ const CartList = () => {
       cart
     }))
   }
+
+//------------------------------------
 
   // +버튼
   const plusCnt = (cartNum)=>{
@@ -179,8 +188,8 @@ const CartList = () => {
             <col width='3%'/>
             <col width='*'/>
             <col width='7%'/>
-            <col width='8%'/>
-            <col width='8%'/>
+            <col width='10%'/>
+            <col width='10%'/>
             <col width='22%'/>
             <col width='10%'/>
           </colgroup>
@@ -189,6 +198,7 @@ const CartList = () => {
               <td><span>No</span></td>
               <td>
                 <input 
+                  className={styles.checkbox}
                   type="checkbox" 
                   checked={isChecked}
                   onChange={e=>headCheckbox(e)}
@@ -216,26 +226,21 @@ const CartList = () => {
                         {i+1}
                       </span>
                     </td>
-
-
-
                     <td>
                       <input 
+                        className={styles.checkbox}
                         type="checkbox" 
                         checked={isCartNum.includes(cart.cartNum)}
                         value={cart.cartNum}
                         onChange={e=>handleCheckbox(e,cart.cartNum)}
                       />
                     </td>
-
-
-
                     <td className={styles.imgtd}>
                       <img 
                         src={`http://localhost:8080/upload/${cart.bookList.bookImgList[0].uploadFileName}`}
                         className={styles.img}
                       />
-                      <span>
+                      <span className={styles.titleSpan}>
                         {cart.bookList.bookTitle}
                       </span>
                     </td>
@@ -251,15 +256,15 @@ const CartList = () => {
                       />
                       <button 
                         type='button'
-                        onClick={()=>{plusCnt(cart.cartNum)}}
-                      >+</button>
-                      <button 
-                        type='button'
                         onClick={()=>{minusCnt(cart.cartNum)}}
                       >-</button>
+                      <button 
+                        type='button'
+                        onClick={()=>{plusCnt(cart.cartNum)}}
+                      >+</button>
                     </td>
                     <td>
-                      <span>
+                      <span className={styles.sumSpan}>
                         {sum(cart)}
                       </span>
                     </td>

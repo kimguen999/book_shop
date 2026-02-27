@@ -20,26 +20,36 @@ const BookList = () => {
     console.log(response.data)
   }
 
-
+  
   return (
     <>
       <div className={styles.container}>
-        {
-          bookList.map((book,i)=>{
-            return(
-              <EachBook
-                key={i}
-                book={book}
-              />
-            )
-          })
-        }
-
+        <div className={styles.filterDiv}>
+          <button 
+            type='button'
+            
+          >필터</button>
+        </div>
+      
+        <div>
+          
+          {
+            bookList.map((book,i)=>{
+              return(
+                <EachBook
+                  key={i}
+                  book={book}
+                />
+              )
+            })
+          }
+  
+        </div>
       </div>
     
     
     </>
-  )
+ )
 }
 
 export default BookList
