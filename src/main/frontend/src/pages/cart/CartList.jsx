@@ -45,7 +45,7 @@ const CartList = () => {
   }
   
   // 총 구매가격 (구매가격 다더한거)
-  const sumAll = (sum)=>{
+  const total1 = ()=>{
     let total = 0;
     if(isCartNum.length > 0){
       for(let i = 0; i<cartInfo.length; i++){
@@ -54,10 +54,22 @@ const CartList = () => {
         }
       }
     }
-    
-    return total.toLocaleString();
+    return total;
   }
 
+  
+  // 10만원 이하 배송시 5000원 추가
+  const getDelivery = ()=>{
+    const delivery = total1() < 100000 ? 5000 : 0;
+    return delivery    
+  }
+
+  // 배송비 포함 가격
+  const sumAll = ()=>{
+    const totalWithDelivery = total1() + getDelivery()
+    
+    return totalWithDelivery.toLocaleString();
+  }
   
   
 
@@ -355,9 +367,15 @@ const CartList = () => {
         </ListTable>
       </div>
       <div className={styles.price}>
-        <span>
-          총 구매 가격 : {sumAll()} 원
-        </span>
+        <p>
+          상품 가격 :  {total1().toLocaleString()}원
+        </p>
+        <p>
+          배송비 : {total1() < 100000 ? '5,000원' : '무료'}
+        </p>
+        <p>
+          총 구매 가격 :  {sumAll()}원
+        </p>
       </div>
       <div className={styles.button}>
         <Button
