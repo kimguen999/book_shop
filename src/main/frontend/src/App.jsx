@@ -12,6 +12,7 @@ import BookDetail from './pages/book/BookDetail'
 import CartList from './pages/cart/CartList'
 import UserLayout from './components/layout/UserLayout'
 import CheckboxTest from './study/CheckboxTest'
+import BuyList from './pages/buy/BuyList'
 
 function App() {
 
@@ -76,6 +77,12 @@ function App() {
           <Route
             path='cartList'
             element={<CartList />}
+          />
+
+          {/* 구매도서 조회 페이지 */}
+          <Route
+            path='buyList'
+            element={<BuyList />}
           />
         </Route>
 

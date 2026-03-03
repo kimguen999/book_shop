@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<!-- namespace에는 xml파일과 연결할 Mapper interface 파일명을 패키지를 포함하여 적어주세요 -->
+<mapper namespace="com.green.book_shop_t.buy.mapper.BuyMapper">
+	<resultMap id="buy" type="com.green.book_shop_t.buy.dto.ShopBuyDTO">
+        <id column="BUY_NUM"           property="buyNum"/>
+        <result column="BUY_PRICE"     property="buyPrice"/>
+        <result column="MEM_EMAIL"     property="memEmail"/>
+        <result column="BUY_DATE"      property="buyDate"/>
+    </resultMap>
+
+    <resultMap id="buyDetail" type="com.green.book_shop_t.buy.dto.BuyDetailDTO">
+        <id column="BUY_DETAIL"       property="buyDetail"/>
+        <result column="BOOK_NUM"     property="bookNum"/>
+        <result column="BUY_CNT"      property="buyCnt"/>
+        <result column="BUY_NUM"      property="buyNum"/>
+    </resultMap>
+
+
+    <!--도서 구매 등록-->
+    <insert id="insertBuy" useGeneratedKeys="true" keyProperty="buyNum">
+        <!--useGeneratedKeys는 Auto Increment 된 키를 insert시 사용하겠다-->
+        <!--keyProperty는 이 쿼리의 빈값을 채우기 위해 가져온 객체(ShopBuyDTO)의 buyNum 변수에 생성된 key를 넣어주겠다는 의미-->
+        INSERT INTO SHOP_BUY(
+            BUY_PRICE
+            , MEM_EMAIL
+        ) VALUES (
+            #{buyPrice}
+            , #{memEmail}
+        )
+    </insert>
+
+    <!--도서 구매 등록(상세)-->
+    <insert id="insertBuyDetail">
+        INSERT INTO BUY_DETAIL (
+            BOOK_NUM
+            , BUY_CNT
+            , BUY_NUM
+        ) VALUES
+            <!--#{bookNum}     ShopBuyDTO.getBookNum-->
+            <!--#{detailList[0].bookNum}     ShopBuyDTO.getDetailList().getBookNum-->
+            <foreach collection="detailList" item="detail" separator=",">
+                <!--collection은 dto의 변수명과 같아야함. 그래야 getDetailList로 알아먹는다.-->
+                (
+                    #{detail.bookNum}
+                <!--하나를 detail이라 지정한 배열 안에 bookNum과 buyCnt가 있기 때문에, detail.bookNum 이런 식으로 적어야한다.-->
+                    , #{detail.buyCnt}
+                    , #{buyNum}
+                )
+
+            </foreach>
+
+    </insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

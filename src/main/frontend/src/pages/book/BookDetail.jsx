@@ -5,6 +5,7 @@ import {  getBookDetail } from '../../api/bookApi';
 import Input from '../../components/common/Input';
 import { click } from '../../api/loginApi';
 import { regCart } from '../../api/cartApi';
+import { insertBuy } from '../../api/buyApi';
 
 
 const BookDetail = ({book}) => {
@@ -45,6 +46,56 @@ const BookDetail = ({book}) => {
     return (bookCnt*bookDetail.bookPrice)?.toLocaleString();
   }
 
+
+/////////////////////////////////////////////////////////////
+
+
+   // 바로 구매 버튼 누르면
+  const regBuy = ()=>{
+    // 로그인한 회원의 이메일
+    const memEmail = JSON.parse(sessionStorage.getItem('loginInfo')).memEmail
+    
+
+    // 자바로 가져갈 데이터
+    const data = {
+      buyPrice : bookCnt*bookDetail.bookPrice
+      , memEmail : memEmail
+      , detailList : [  // 키값이 동일해야 하므로 detailList로 동일하게하고, List이므로 배열로준다.
+        {
+          bookNum : bookDetail.bookNum
+          , buyCnt : bookCnt
+        }
+      ]
+      // , buyNum : '' 인텔리j에서 useGenerateKey때문에 자바에서 해결함
+    }
+    // 구매 등록 api
+    console.log(data);
+    insertBuy(data);
+
+
+
+    
+    
+  }
+
+  // // 바로구매 등록 함수
+  // const Buy = ()=>{
+  //   const loginInfo = sessionStorage.getItem('loginInfo')
+  //   const loginInfo_obj = JSON.parse(loginInfo);
+
+  //   const data = {
+  //     bookNum : bookDetail.bookNum
+  //     , cartCnt : bookCnt
+  //     , memEmail : loginInfo_obj.memEmail
+  //   }
+
+  // }
+
+
+
+//////////////////////////////////////////////////////////////
+
+
   const loginInfo = JSON.parse(sessionStorage.getItem('loginInfo'))
   console.log('로그인인포'+loginInfo)
   // 장바구니 버튼 누르면
@@ -57,10 +108,10 @@ const BookDetail = ({book}) => {
       } 
       return;
     } 
-
+    
     // 장바구니 등록 api 조회
     insertCart();
-
+    
   }
 
   // 장바구니 등록 함수
@@ -100,7 +151,13 @@ const BookDetail = ({book}) => {
   }
 
 
-  
+
+
+
+
+
+
+
   // 수량 변경 + 한글.음수 금지 함수
   const handleCnt = (e)=>{
     // 만약 숫자가 아닌 문자열이 입력되면 입력된 문자열을 빈문자열로 변경 (음수 알아서 해결)
@@ -183,10 +240,15 @@ const BookDetail = ({book}) => {
                   clickCart(e)
                 }}
               >장바구니에 담기</button>
+
+
               <button 
                 type='button'
                 className={styles.btnGumae}
+                onClick={e=>regBuy()}
               >바로 구매</button>
+
+
             </div>
           </div>
         </div>
