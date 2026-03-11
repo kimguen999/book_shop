@@ -53,6 +53,38 @@
             </foreach>
 
     </insert>
+
+    <select id="selectSaleInfo" resultMap="saleInfo">
+        SELECT
+        (
+        SELECT COUNT(BUY_NUM)
+        FROM SHOP_BUY
+        WHERE DATE(BUY_DATE) = CURRENT_DATE()
+        ) AS SALE_CNT_TODAY,
+        (
+        SELECT COUNT(BUY_NUM)
+        FROM SHOP_BUY
+        WHERE DATE(BUY_DATE)
+        BETWEEN CONCAT(TO_CHAR(CURRENT_DATE(), 'YYYY-MM'), '-01')
+        AND CURRENT_DATE()
+        ) AS SALE_CNT_MONTH,
+        (
+        SELECT NVL(SUM(BUY_PRICE),0)
+        FROM SHOP_BUY
+        WHERE DATE(BUY_DATE) = CURRENT_DATE()
+        ) AS SALE_TODAY,
+        (
+        SELECT NVL(SUM(BUY_PRICE),0)
+        FROM SHOP_BUY
+        WHERE DATE(BUY_DATE)
+        BETWEEN CONCAT(TO_CHAR(CURRENT_DATE(), 'YYYY-MM'), '-01')
+        AND CURRENT_DATE()
+        ) AS SALE_MONTH
+    </select>
+
+
+
+
 </mapper>
 
 
