@@ -51,10 +51,17 @@ const BookDetail = ({book}) => {
 
 
    // 바로 구매 버튼 누르면
-  const regBuy = ()=>{
+  const regBuy = async ()=>{
+    // 로그인 여부 확인
+    const loginInfoStr = sessionStorage.getItem('loginInfo')
+    if(!loginInfoStr){
+      const isLogin = window.confirm("로그인이 필요합니다.\n\t 로그인 하시겠습니까?")
+      if(isLogin){ nav('/login') }
+      return
+    }
+
     // 로그인한 회원의 이메일
-    const memEmail = JSON.parse(sessionStorage.getItem('loginInfo')).memEmail
-    
+    const memEmail = JSON.parse(loginInfoStr).memEmail
 
     // 자바로 가져갈 데이터
     const data = {
@@ -68,14 +75,15 @@ const BookDetail = ({book}) => {
       ]
       // , buyNum : '' 인텔리j에서 useGenerateKey때문에 자바에서 해결함
     }
-    // 구매 등록 api
+    // 구매 등록 api 호출
     console.log(data);
-    insertBuy(data);
-
-
-
-    
-    
+    const response = await insertBuy(data)
+    if(response && response.status === 201){
+      alert('구매가 완료되었습니다!')
+      nav('/my/buyList')
+    } else {
+      alert('구매 중 오류가 발생했습니다.')
+    }
   }
 
   // // 바로구매 등록 함수

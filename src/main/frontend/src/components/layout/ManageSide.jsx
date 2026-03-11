@@ -4,8 +4,16 @@ import {
   FaChartColumn, FaSquarePlus, FaCubesStacked, 
   FaFileArrowUp
 } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom';
 
 const ManageSide = () => {
+
+  const nav = useNavigate();
+
+  const goManageBook = (e)=>{
+    nav('/manage/book')
+  }
+
   return (
     <div className={styles.container}>
       <div>
@@ -39,11 +47,15 @@ const ManageSide = () => {
           </li>
           <li>
             <FaSquarePlus className={styles.icon}/>
-            <p>월별매출관리</p>
+            <p
+              onClick={e=>goManageBook(e)}
+            >월별매출관리</p>
           </li>
           <li>
             <FaCubesStacked className={styles.icon}/>
-            <p>주간매출관리</p>
+            <p
+              onClick={e=>goManageBook(e)}
+            >주간매출관리</p>
           </li>
         </ul>
       </div>

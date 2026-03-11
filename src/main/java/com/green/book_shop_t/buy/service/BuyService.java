@@ -1,13 +1,13 @@
 package com.green.book_shop_t.buy.service;
 
 
-import com.green.book_shop_t.buy.dto.BuyDetailDTO;
-import com.green.book_shop_t.buy.dto.ShopBuyDTO;
+import com.green.book_shop_t.buy.dto.*;
 import com.green.book_shop_t.buy.mapper.BuyMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -33,6 +33,30 @@ public class BuyService {
   public Map<String, Integer> selectSaleInfo(){
     return buyMapper.selectSaleInfo();
   }
+
+  // 특정 회원의 구매내역 목록 조회 기능
+  public List<BuyListDTO> selectBuyList(String memEmail){
+    return buyMapper.selectBuyList(memEmail);
+  }
+
+  // 구매자 랭킹 조회 기능
+  public List<TopBuyerDTO> selectTopBuyer(){
+    return buyMapper.selectTopBuyer();
+  }
+
+  // 인기 도서 5권 랭킹 조회 기능
+  public List<TopBookDTO> selectTopBook(){
+    return buyMapper.selectTopBook();
+  }
+
+
+  // 최근 10일 차트 데이터 조회 기능
+  public List<Map<String, Object>> selectSale10(List<Integer> dayList){
+    return buyMapper.selectSale10(dayList);
+  }
+
+
+  //
 
 
 

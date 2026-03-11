@@ -1,0 +1,29 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+  width: 80%;
+  margin: 30px auto;
+}
+
+.head{
+  display: flex;
+  border: 1px solid #000;
+}
+.head2{
+  display: flex;
+  border: 1px solid #000;
+}
+.head3{
+  display: flex;
+  border: 1px solid #000;
+  flex-direction: column;
+}
+.tail{
+  display: flex;
+}
+
+
+
+
+

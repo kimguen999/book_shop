@@ -18,6 +18,21 @@
         <result column="BUY_NUM"      property="buyNum"/>
     </resultMap>
 
+    <!--구매내역 목록 조회 (도서 정보 포함)-->
+    <resultMap id="buyList" type="com.green.book_shop_t.buy.dto.BuyListDTO">
+        <id   column="BUY_NUM"    property="buyNum"/>
+        <result column="BUY_PRICE" property="buyPrice"/>
+        <result column="BUY_DATE"  property="buyDate"/>
+        <collection property="detailList" ofType="com.green.book_shop_t.buy.dto.BuyDetailInfoDTO">
+            <id   column="BOOK_NUM"          property="bookNum"/>
+            <result column="BUY_CNT"         property="buyCnt"/>
+            <result column="BOOK_TITLE"      property="bookTitle"/>
+            <result column="BOOK_PRICE"      property="bookPrice"/>
+            <result column="UPLOAD_FILE_NAME" property="uploadFileName"/>
+        </collection>
+    </resultMap>
+
+
 
     <!--도서 구매 등록-->
     <insert id="insertBuy" useGeneratedKeys="true" keyProperty="buyNum">
@@ -55,35 +70,123 @@
     </insert>
 
 
+
+
+    <select id="selectBuyList" resultMap="buyList">
+        SELECT
+            SB.BUY_NUM
+            , SB.BUY_PRICE
+            , SB.BUY_DATE
+            , BD.BOOK_NUM
+            , BD.BUY_CNT
+            , B.BOOK_TITLE
+            , B.BOOK_PRICE
+            , I.UPLOAD_FILE_NAME
+        FROM
+            SHOP_BUY SB
+            INNER JOIN BUY_DETAIL BD ON SB.BUY_NUM = BD.BUY_NUM
+            INNER JOIN SHOP_BOOK B   ON BD.BOOK_NUM = B.BOOK_NUM
+            LEFT JOIN BOOK_IMG I     ON BD.BOOK_NUM = I.BOOK_NUM AND I.IS_MAIN = 'Y'
+        WHERE
+            SB.MEM_EMAIL = #{memEmail}
+        ORDER BY
+            SB.BUY_DATE DESC
+    </select>
+
     <!--오늘과 이 달의 주문건수 및 매출금액 조회 쿼리-->
+    <!--MariaDB 함수로 수정: TO_CHAR→DATE_FORMAT, NVL→IFNULL-->
     <select id="selectSaleInfo" resultType="map">
         SELECT
         (
             SELECT COUNT(BUY_NUM)
             FROM SHOP_BUY
             WHERE DATE(BUY_DATE) = CURRENT_DATE()
-        ) AS SALE_CNT_TODAY,
+        ) AS saleCntToday,
         (
             SELECT COUNT(BUY_NUM)
             FROM SHOP_BUY
             WHERE DATE(BUY_DATE)
-            BETWEEN CONCAT(TO_CHAR(CURRENT_DATE(), 'YYYY-MM'), '-01')
+            BETWEEN DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
             AND CURRENT_DATE()
-        ) AS SALE_CNT_MONTH,
+        ) AS saleCntMonth,
         (
-            SELECT NVL(SUM(BUY_PRICE),0)
+            SELECT IFNULL(SUM(BUY_PRICE), 0)
             FROM SHOP_BUY
             WHERE DATE(BUY_DATE) = CURRENT_DATE()
-        ) AS SALE_TODAY,
+        ) AS saleToday,
         (
-            SELECT NVL(SUM(BUY_PRICE),0)
+            SELECT IFNULL(SUM(BUY_PRICE), 0)
             FROM SHOP_BUY
             WHERE DATE(BUY_DATE)
-            BETWEEN CONCAT(TO_CHAR(CURRENT_DATE(), 'YYYY-MM'), '-01')
+            BETWEEN DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
             AND CURRENT_DATE()
-        ) AS SALE_MONTH
+        ) AS saleMonth
     </select>
 
+
+
+
+
+    <resultMap id="topBuyer" type="com.green.book_shop_t.buy.dto.TopBuyerDTO">
+        <result column="MEM_EMAIL"              property="memEmail" />
+        <result column="SALE_CNT_PER_MEMBER"    property="saleCntPerMember" />
+        <result column="SALE_PER_MEMBER"        property="salePerMember" />
+    </resultMap>
+
+    <!--구매자 구매랭킹 조회 쿼리-->
+    <select id="selectTopBuyer" resultMap="topBuyer">  <!--한 행에 대한 자료형-->
+        SELECT MEM_EMAIL
+            , COUNT(BUY_NUM) SALE_CNT_PER_MEMBER
+            , SUM(BUY_PRICE) SALE_PER_MEMBER
+<!--            , ROW_NUMBER() OVER (ORDER BY SALE_PER_MEMBER DESC)-->
+        FROM SHOP_BUY
+        GROUP BY MEM_EMAIL
+        ORDER BY SALE_PER_MEMBER DESC
+        LIMIT 5
+    </select>
+
+
+
+
+
+
+    <resultMap id="topBook" type="com.green.book_shop_t.buy.dto.TopBookDTO">
+        <result column="BOOK_NUM"              property="bookNum" />
+        <result column="TOTAL_BUY_CNT"    property="totalBuyCnt" />
+        <result column="BOOK_TITLE"        property="bookTitle" />
+        <result column="AUTHOR"        property="author" />
+    </resultMap>
+
+    <!--인서 도서 랭킹-->
+    <select id="selectTopBook" resultMap="topBook">
+        SELECT D.BOOK_NUM, SUM(BUY_CNT) TOTAL_BUY_CNT, BOOK_TITLE, AUTHOR
+        FROM BUY_DETAIL D, SHOP_BOOK B
+        WHERE D.BOOK_NUM = B.BOOK_NUM
+        GROUP BY D.BOOK_NUM
+        ORDER BY TOTAL_BUY_CNT DESC, BOOK_TITLE ASC
+        LIMIT  5
+    </select>
+
+
+
+
+
+
+
+    <!--최근 10일 차트 데이터 조회-->
+
+    <select id="selectSale10" resultType="map">
+
+        <foreach collection="dayList" item="day" separator="UNION ALL" >
+            SELECT ADDDATE(CURRENT_DATE(), -#{day}) AS day
+            , (SELECT NVL(SUM(BUY_PRICE), 0)
+            FROM SHOP_BUY
+            WHERE DATE(BUY_DATE) = ADDDATE(CURRENT_DATE(), -#{day})) AS sale
+        </foreach>
+
+
+
+    </select>
 
 
 

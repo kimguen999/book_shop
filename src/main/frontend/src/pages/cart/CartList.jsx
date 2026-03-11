@@ -5,9 +5,13 @@ import Input from '../../components/common/Input'
 import { delCarts, deleteOne1, getCart, updateCnt } from '../../api/cartApi';
 import ListTable from '../../components/common/ListTable';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import { insertBuy } from '../../api/buyApi';
 
 
 const CartList = () => {
+
+  const nav = useNavigate();
 
   // 조회한 장바구니 목록 저장 state 변수
   const [cartInfo, setCartInfo] = useState([]);
@@ -244,6 +248,54 @@ const CartList = () => {
   
   console.log(isCartNum)
 
+  // 장바구니 선택 구매 함수
+  const buyCarts = async ()=>{
+    // 선택한 상품이 없을 때
+    if(isCartNum.length === 0){
+      alert('구매할 상품을 선택해주세요.')
+      return
+    }
+
+    // 선택된 장바구니 항목만 필터링
+    const selectedCarts = cartInfo.filter(cart => isCartNum.includes(cart.cartNum))
+
+    // 구매할 도서 목록 제목
+    const selectedBooks = selectedCarts.map(cart => cart.bookList.bookTitle)
+
+    const result = window.confirm(
+      `선택한 ${selectedCarts.length}개 상품을 구매하시겠습니까?\n\n${selectedBooks.join('\n')}`
+    )
+    if(!result) return
+
+    // 로그인한 회원 이메일
+    const loginInfo = JSON.parse(sessionStorage.getItem('loginInfo'))
+
+    // 구매 등록 데이터 구성
+    const totalPrice = selectedCarts.reduce((sum, cart) => {
+      return sum + (cart.bookList.bookPrice * cart.cartCnt)
+    }, 0) + getDelivery()
+
+    const data = {
+      buyPrice: totalPrice,
+      memEmail: loginInfo.memEmail,
+      detailList: selectedCarts.map(cart => ({
+        bookNum: cart.bookList.bookNum,
+        buyCnt: cart.cartCnt
+      }))
+    }
+
+    // 구매 등록 api 호출
+    const response = await insertBuy(data)
+    if(response && response.status === 201){
+      // 구매 성공 후 장바구니에서 해당 항목 삭제
+      await delCarts(isCartNum)
+      alert('구매가 완료되었습니다!')
+      nav('/my/buyList')
+    } else {
+      alert('구매 중 오류가 발생했습니다.')
+    }
+  }
+
   //---------------------------------------------------------------------
 
   return (
@@ -385,6 +437,7 @@ const CartList = () => {
         />
         <Button
           title='선택 구매'
+          onClick={e=>buyCarts()}
         />
       </div>
     

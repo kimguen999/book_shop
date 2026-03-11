@@ -15,6 +15,10 @@ const Side = () => {
     nav('/my/cartList')
   }
 
+  const goBuyList = ()=>{
+    nav('/my/buyList')
+  }
+
 
   return (
     <>
@@ -29,7 +33,11 @@ const Side = () => {
             <FaChartColumn className={styles.icon}/>
             <p>장바구니</p>
           </li>
-          <li>
+          <li
+            onClick={e=>{
+              goBuyList();
+            }}
+          >
             <FaSquarePlus className={styles.icon}/>
             <p>구매내역</p>
           </li>

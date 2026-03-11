@@ -13,6 +13,7 @@ import CartList from './pages/cart/CartList'
 import UserLayout from './components/layout/UserLayout'
 import CheckboxTest from './study/CheckboxTest'
 import BuyList from './pages/buy/BuyList'
+import ManageBook from './pages/manager/ManageBook'
 
 function App() {
 
@@ -101,6 +102,12 @@ function App() {
             element={<BookForm/>}
           />
           
+          {/* 매출, 랭킹, 구문건수 등 */}
+          <Route
+            path='book'
+            element={<ManageBook/>}
+          />
+
         </Route>
 
 

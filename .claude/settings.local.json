@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/01-STUDY/dev/**)",
+      "Bash(find D:/01-STUDY/dev/book_shop -name *.vue -o -name *.html -o -name package.json)",
+      "Bash(find D:/01-STUDY/dev/book_shop/src/main/frontend/src -name *.js)"
+    ]
+  }
+}
