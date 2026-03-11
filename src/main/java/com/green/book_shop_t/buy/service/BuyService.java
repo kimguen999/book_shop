@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class BuyService {
@@ -25,9 +27,12 @@ public class BuyService {
     // BUY_DETAIL INSERT
     buyMapper.insertBuyDetail(shopBuyDTO);
 
-
   }
 
+  // 오늘과 이달의 주문건수 및 매출액 조회 기능
+  public Map<String, Integer> selectSaleInfo(){
+    return buyMapper.selectSaleInfo();
+  }
 
 
 

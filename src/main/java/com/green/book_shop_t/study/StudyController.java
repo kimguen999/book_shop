@@ -54,9 +54,18 @@ public class StudyController {
 
   // 구매 목록 데이터(안만듬)와 장바구니 목록 데이터를 조회
   @GetMapping("/test3")
-  public void mapTest3(){
+  public Map<String, Object> mapTest3(){
+
+    //바이리스트 있다 치고
+
+    //카트리스트
     List<CartDTO> cartList = cartService.cartList("bbb@naver.com");
-    return;
+
+    // 두 리스트 데이터를 모두 저장할수 있는 map 객체 생성
+    Map<String, Object> map = new HashMap<>();
+//    map.put("buyList", buyList);
+    map.put("carList", cartList);
+    return map;
   }
 
 

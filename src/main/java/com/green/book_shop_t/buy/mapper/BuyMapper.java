@@ -4,6 +4,8 @@ import com.green.book_shop_t.buy.dto.BuyDetailDTO;
 import com.green.book_shop_t.buy.dto.ShopBuyDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 @Mapper
 public interface BuyMapper {
 
@@ -13,5 +15,6 @@ public interface BuyMapper {
   // 도서 상세에서 등록 (1권씩) 쿼리 실행 메서드
   void insertBuyDetail(ShopBuyDTO shopBuyDTO);
 
-
+  // 오늘과 이달의 주문건수 및 매출액 조회 쿼리 실행 메서드
+  Map<String, Integer> selectSaleInfo();
 }

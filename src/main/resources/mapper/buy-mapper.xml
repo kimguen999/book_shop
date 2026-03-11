@@ -54,31 +54,33 @@
 
     </insert>
 
-    <select id="selectSaleInfo" resultMap="saleInfo">
+
+    <!--오늘과 이 달의 주문건수 및 매출금액 조회 쿼리-->
+    <select id="selectSaleInfo" resultType="map">
         SELECT
         (
-        SELECT COUNT(BUY_NUM)
-        FROM SHOP_BUY
-        WHERE DATE(BUY_DATE) = CURRENT_DATE()
+            SELECT COUNT(BUY_NUM)
+            FROM SHOP_BUY
+            WHERE DATE(BUY_DATE) = CURRENT_DATE()
         ) AS SALE_CNT_TODAY,
         (
-        SELECT COUNT(BUY_NUM)
-        FROM SHOP_BUY
-        WHERE DATE(BUY_DATE)
-        BETWEEN CONCAT(TO_CHAR(CURRENT_DATE(), 'YYYY-MM'), '-01')
-        AND CURRENT_DATE()
+            SELECT COUNT(BUY_NUM)
+            FROM SHOP_BUY
+            WHERE DATE(BUY_DATE)
+            BETWEEN CONCAT(TO_CHAR(CURRENT_DATE(), 'YYYY-MM'), '-01')
+            AND CURRENT_DATE()
         ) AS SALE_CNT_MONTH,
         (
-        SELECT NVL(SUM(BUY_PRICE),0)
-        FROM SHOP_BUY
-        WHERE DATE(BUY_DATE) = CURRENT_DATE()
+            SELECT NVL(SUM(BUY_PRICE),0)
+            FROM SHOP_BUY
+            WHERE DATE(BUY_DATE) = CURRENT_DATE()
         ) AS SALE_TODAY,
         (
-        SELECT NVL(SUM(BUY_PRICE),0)
-        FROM SHOP_BUY
-        WHERE DATE(BUY_DATE)
-        BETWEEN CONCAT(TO_CHAR(CURRENT_DATE(), 'YYYY-MM'), '-01')
-        AND CURRENT_DATE()
+            SELECT NVL(SUM(BUY_PRICE),0)
+            FROM SHOP_BUY
+            WHERE DATE(BUY_DATE)
+            BETWEEN CONCAT(TO_CHAR(CURRENT_DATE(), 'YYYY-MM'), '-01')
+            AND CURRENT_DATE()
         ) AS SALE_MONTH
     </select>
 
