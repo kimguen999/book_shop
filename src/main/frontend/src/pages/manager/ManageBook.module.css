@@ -8,19 +8,53 @@
 
 .head{
   display: flex;
-  border: 1px solid #000;
+  border: 1px solid #00fc60;
 }
 .head2{
   display: flex;
-  border: 1px solid #000;
+  border: 1px solid #e70606;
 }
-.head3{
+
+
+
+.head3_1{
+  width: 200px;
   display: flex;
-  border: 1px solid #000;
+  border: 1px solid #7600d6;
   flex-direction: column;
+  text-align: center;
+  
 }
+.head3_1 div{
+  border: 1px solid #000;
+  height: 150px;
+}
+
+
+
+
+.head3_2{
+  width: 200px;
+  text-align: center;
+}
+.head3_2 div{
+  border: 1px solid #000;
+  height: 150px;
+}
+
+
+
+.chart{
+  width: 100%;
+  border: 1px solid #000;
+  
+}
+
+
 .tail{
   display: flex;
+  
+  gap: 30px;
 }
 
 

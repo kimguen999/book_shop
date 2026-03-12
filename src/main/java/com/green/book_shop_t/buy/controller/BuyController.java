@@ -99,7 +99,6 @@ public class BuyController {
       for(int i = 9; i>-1; i--){
         dayList.add(i);
       }
-
       List<Map<String,Object>> topBuyerList =  buyService.selectSale10(dayList);
       return ResponseEntity.status(HttpStatus.OK).body(topBuyerList);
     } catch (Exception e){
