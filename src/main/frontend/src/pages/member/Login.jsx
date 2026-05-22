@@ -3,7 +3,16 @@ import Input from '../../components/common/Input'
 import Button from '../../components/common/Button'
 import { click } from '../../api/loginApi'
 import { useNavigate } from 'react-router-dom'
+// jwt토큰 : 입장권
+// spring security : 어디에 입장 가능한지 권한(인증, 인가)
 
+// header
+  // alg : 암호화기법(알고리즘)
+// payload : 실제 데이터 (키, 밸류를 claim클레임이라 부름)
+// 복호화되기 쉽기때문에 민감한 정보를 넣으면 안된다
+  // iat : 입장권 발행일을 json형식으로 바꾼거
+// signature : 시크릿키를 모르면 복호화 할수없어 보안상으로 안전
+// 시크릿키가 노출되면 보안상 위험
 
 const Login = ({setLoginInfo}) => {
 
